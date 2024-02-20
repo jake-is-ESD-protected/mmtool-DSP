@@ -57,15 +57,15 @@ def port_init():
     """
     if not os.path.exists(join(main_path, "main.c")):
         content = """
-        #include "port.h"
+#include "port.h"
 
-        void port_setup(void){
-    
-        }
+void port_setup(void){
 
-        void port_loop(void){
+}
 
-        }"""
+void port_loop(void){
+
+}"""
         with open(join(main_path, "main.c"), "w") as f:
             f.write(content)
 
@@ -105,7 +105,7 @@ def port_insert():
                                 "\t\tport_loop();")
     lines = line_insert_port('#include "main.h"',
                                 lines,
-                                '#include "port.h"')
+                                '#include "port.h"\n#include "stm32l4xx_it.c"') # this is a hotfix
     lines_2_file(lines, port_c)
 
     glob_vars = line_extract("/* Private variables ---------------------------------------------------------*/",
