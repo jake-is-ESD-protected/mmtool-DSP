@@ -32,9 +32,6 @@ void port_loop(void);
 
 /// @brief  export auto generated global variables from `main.c` (this part is also
 ///         auto generated)
-ADC_HandleTypeDef hadc1;
-DMA_HandleTypeDef hdma_adc1;
-
 DAC_HandleTypeDef hdac1;
 DMA_HandleTypeDef hdma_dac_ch1;
 
