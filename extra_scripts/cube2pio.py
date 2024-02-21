@@ -94,6 +94,14 @@ def port_insert():
     function decalrations of `port_setup()` and `port_loop()` which are called in
     `lib/port/port.c` and defined in `src/main.c`. This function also discards
     `lib/port/main.c`, as it is no longer needed.
+
+    NOTE (for developer):
+    It appears that the source files usually found in `Core/Src` are not picked up
+    by PIO if put into `lib/port`. The compiler does not warn about missing defs,
+    which forces me to include them manually. This is very weird because it then
+    doesn't make any sense where functions like `SysTick_Handler()` are registered,
+    as I was unable to locate a `__weak` definition anywhere. For now, including
+    them manually fixes the issue but is very weird and ugly.
     """
     port_c = join(local_path, "port.c")
     lines = file_2_lines(join(local_path, "main.c"))
@@ -103,9 +111,18 @@ def port_insert():
     lines = line_insert_port("/* USER CODE END WHILE */",
                                 lines,
                                 "\t\tport_loop();")
+    
+    includes = """
+#include "port.h"
+#include "stm32l4xx_it.c"
+#include "stm32l4xx_hal_msp.c"
+#include "syscalls.c"
+#include "sysmem.c"
+#include "system_stm32l4xx.c"
+"""
     lines = line_insert_port('#include "main.h"',
                                 lines,
-                                '#include "port.h"\n#include "stm32l4xx_it.c"') # this is a hotfix
+                                includes.lstrip('\n')) # this is a hotfix
     lines_2_file(lines, port_c)
 
     glob_vars = line_extract("/* Private variables ---------------------------------------------------------*/",

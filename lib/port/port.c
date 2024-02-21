@@ -20,6 +20,11 @@
 #include "main.h"
 #include "port.h"
 #include "stm32l4xx_it.c"
+#include "stm32l4xx_hal_msp.c"
+#include "syscalls.c"
+#include "sysmem.c"
+#include "system_stm32l4xx.c"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
