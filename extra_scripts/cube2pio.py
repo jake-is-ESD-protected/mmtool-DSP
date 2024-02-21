@@ -112,17 +112,9 @@ def port_insert():
                                 lines,
                                 "\t\tport_loop();")
     
-    includes = """
-#include "port.h"
-#include "stm32l4xx_it.c"
-#include "stm32l4xx_hal_msp.c"
-#include "syscalls.c"
-#include "sysmem.c"
-#include "system_stm32l4xx.c"
-"""
     lines = line_insert_port('#include "main.h"',
-                                lines,
-                                includes.lstrip('\n')) # this is a hotfix
+                             lines,
+                             '#include "port.h"')
     lines_2_file(lines, port_c)
 
     glob_vars = line_extract("/* Private variables ---------------------------------------------------------*/",
