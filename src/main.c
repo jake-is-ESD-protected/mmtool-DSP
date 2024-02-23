@@ -7,10 +7,10 @@ uint8_t rx_buf[BUF_SIZE] = {0};
 uint8_t tx_buf[BUF_SIZE] = {0};
 uint8_t large_buf[128] = {0};
 uint8_t i = 0;
-uint8_t restart = 0;
+uint8_t restart = 1;
 
 void port_setup(void){
-    HAL_SPI_Receive_DMA(&hspi1, rx_buf, BUF_SIZE);
+
 }
 
 void port_loop(void){
