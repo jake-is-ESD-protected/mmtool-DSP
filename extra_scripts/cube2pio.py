@@ -42,11 +42,11 @@ def line_insert_port(tag: str, content: List[str], insert: str) -> List[str]:
     return lines
 
 
-def line_extract(start: str, stop: str, content: List[str]) -> str:
+def line_extract(start: str, stop: str, content: List[str]) -> List[str]:
     lines_stripped = [line.strip() for line in content]
     i_start = lines_stripped.index(start)
     i_stop = lines_stripped.index(stop)
-    return "".join(content[i_start+1:i_stop])
+    return content[i_start+1:i_stop]
 
 
 def port_init():
@@ -112,6 +112,8 @@ def port_insert():
     glob_vars = line_extract("/* Private variables ---------------------------------------------------------*/",
                              "/* USER CODE BEGIN PV */",
                              lines)
+    glob_vars = ["extern " + var for var in glob_vars if var != "\n"]
+    glob_vars = "".join(glob_vars)
     head = """
 /**
 \t******************************************************************************

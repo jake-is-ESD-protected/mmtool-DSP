@@ -32,12 +32,10 @@ void port_loop(void);
 
 /// @brief  export auto generated global variables from `main.c` (this part is also
 ///         auto generated)
-SPI_HandleTypeDef hspi1;
-DMA_HandleTypeDef hdma_spi1_tx;
-DMA_HandleTypeDef hdma_spi1_rx;
-
-TIM_HandleTypeDef htim6;
-
+extern SPI_HandleTypeDef hspi1;
+extern DMA_HandleTypeDef hdma_spi1_tx;
+extern DMA_HandleTypeDef hdma_spi1_rx;
+extern TIM_HandleTypeDef htim6;
 
 #ifdef __cplusplus
 }
