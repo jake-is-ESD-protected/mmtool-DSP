@@ -11,6 +11,7 @@
 #define _CROSS_PLATFORM_H_
 
 #include <inttypes.h>
+#include "memory.h"
 
 typedef struct{
     union{
@@ -32,6 +33,18 @@ typedef enum{
     SPI_REQUEST_DUMMY_DATA,
     SPI_NUM_INSTRUCTIONS
 } spi_cmd_t;
+
+void memset32( void * dest, uint32_t value, uintptr_t size )
+{
+  uintptr_t i;
+  const uint8_t b = sizeof(uint32_t);
+  for( i = 0; i < (size & (~(b-1))); i+=b ){
+    memcpy( ((char*)dest) + i, &value, b);
+  }  
+  for( ; i < size; i++ ){
+    ((char*)dest)[i] = ((char*)&value)[i&(b-1)];
+  }  
+}
 
 
 #endif // _CROSS_PLATFORM_H_
