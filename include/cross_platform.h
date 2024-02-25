@@ -22,8 +22,9 @@ typedef struct{
     };
 }spi_instruction_t;
 
-#define SPI_ACK_WORD (0xDEADBEEF)
-#define SPI_DUMMY_WORD (0xAAAAAAAA)
+#define SPI_ACK_WORD (0x0BADC0DE)
+#define SPI_DUMMY_WORD (0xBADBABE5)
+#define SPI_MAX_BYTE_PER_BURST 4094
 
 typedef enum{
     SPI_REQUEST_ADC_DATA,
