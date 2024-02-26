@@ -23,7 +23,6 @@ void spi_init(void){
     if(spi_cmd_handshake() != HAL_OK){
         sys_err_handler();
     }
-    spi_cmd_handshake();
 }
 
 void spi_deinit(void){
