@@ -30,27 +30,27 @@ void spi_deinit(void){
     spi_p = NULL;
 }
 
-HAL_StatusTypeDef spi_tx_internal(uint16_t size){
+inline HAL_StatusTypeDef spi_tx_internal(uint16_t size){
     return HAL_SPI_Transmit_DMA(spi_p, tx_buf, size);
 }
 
 
-HAL_StatusTypeDef spi_tx_external(uint8_t *pData, uint16_t size){
+inline HAL_StatusTypeDef spi_tx_external(uint8_t *pData, uint16_t size){
     return HAL_SPI_Transmit_DMA(spi_p, pData, size);
 }
 
 
-HAL_StatusTypeDef spi_rx_internal(uint16_t size){
+inline HAL_StatusTypeDef spi_rx_internal(uint16_t size){
     return HAL_SPI_Receive_DMA(spi_p, rx_buf, size);
 }
 
 
-HAL_StatusTypeDef spi_rx_external(uint8_t *pData, uint16_t size){
+inline HAL_StatusTypeDef spi_rx_external(uint8_t *pData, uint16_t size){
     return HAL_SPI_Receive_DMA(spi_p, pData, size);
 }
 
 
-HAL_StatusTypeDef spi_cmd_handshake(void){
+inline HAL_StatusTypeDef spi_cmd_handshake(void){
     static const uint32_t ack = SPI_ACK_WORD;
     return HAL_SPI_TransmitReceive_DMA(spi_p, (uint8_t*)&ack, (uint8_t*)&instr.raw, sizeof(instr.raw));
 }
