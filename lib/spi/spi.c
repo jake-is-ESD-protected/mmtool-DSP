@@ -9,6 +9,7 @@
 
 #include "spi.h"
 #include "cross_platform.h"
+#include "sys_err.h"
 
 static SPI_HandleTypeDef* spi_p = NULL;
 
@@ -19,10 +20,14 @@ static spi_instruction_t instr = {0};
 
 void spi_init(void){
     spi_p = &hspi1;
+    if(spi_cmd_handshake() != HAL_OK){
+        sys_err_handler();
+    }
     spi_cmd_handshake();
 }
 
 void spi_deinit(void){
+    /// TODO: populate properly, this is unusable rn
     spi_p = NULL;
 }
 
@@ -56,7 +61,9 @@ HAL_StatusTypeDef spi_cmd_handshake(void){
 /// @param hspi 
 /// @attention Calling `spi_tx_internal` or `spi_tx_external` will lead here.
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi){
-    spi_cmd_handshake();
+    if(spi_cmd_handshake() != HAL_OK){
+        sys_err_handler();
+    }
 }
 
 
@@ -64,7 +71,9 @@ void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi){
 /// @param hspi 
 /// @attention Calling `spi_rx_internal` or `spi_rx_external` will lead here.
 void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi){
-    spi_cmd_handshake();
+    if(spi_cmd_handshake() != HAL_OK){
+        sys_err_handler();
+    }
 }
 
 /// @brief Device has received command and sent its identifier as handshake.
@@ -74,5 +83,7 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi){
     if(instr.cmd == SPI_REQUEST_DUMMY_DATA){
         memset32(tx_buf, SPI_DUMMY_WORD, instr.len);
     }
-    spi_tx_internal(instr.len);
+    if(spi_tx_internal(instr.len) != HAL_OK){
+        sys_err_handler();
+    }
 }
